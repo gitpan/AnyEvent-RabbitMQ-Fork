@@ -1,7 +1,7 @@
 
 
 This archive contains the distribution AnyEvent-RabbitMQ-Fork,
-version 0.1:
+version 0.2:
 
   Run AnyEvent::RabbitMQ inside AnyEvent::Fork(::RPC)
 

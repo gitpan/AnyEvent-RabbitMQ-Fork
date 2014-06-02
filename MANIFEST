@@ -14,3 +14,4 @@ lib/AnyEvent/RabbitMQ/Fork/Channel.pm
 lib/AnyEvent/RabbitMQ/Fork/Worker.pm
 t/00_load.t
 t/release-04_anyevent.t
+t/release-05_hiload.t

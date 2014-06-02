@@ -1,5 +1,5 @@
 package AnyEvent::RabbitMQ::Fork::Worker;
-$AnyEvent::RabbitMQ::Fork::Worker::VERSION = '0.1';
+$AnyEvent::RabbitMQ::Fork::Worker::VERSION = '0.2';
 =head1 NAME
 
 AnyEvent::RabbitMQ::Fork::Worker - Fork side magic
@@ -83,6 +83,15 @@ sub run {
                         };
 
                         _cb_hooks($obj);
+                    }
+
+                    if ($isa eq 'AnyEvent::RabbitMQ') {
+                        # replace with our own handling
+                        $obj->{_handle}->on_drain(
+                            sub {
+                                AnyEvent::Fork::RPC::event('cdw');
+                            }
+                        );
                     }
 
                     unshift @_,

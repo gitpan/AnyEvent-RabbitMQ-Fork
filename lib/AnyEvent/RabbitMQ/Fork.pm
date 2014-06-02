@@ -1,5 +1,5 @@
 package AnyEvent::RabbitMQ::Fork;
-$AnyEvent::RabbitMQ::Fork::VERSION = '0.1';
+$AnyEvent::RabbitMQ::Fork::VERSION = '0.2';
 # ABSTRACT: Run AnyEvent::RabbitMQ inside AnyEvent::Fork(::RPC)
 
 =head1 NAME
@@ -9,7 +9,7 @@ AnyEvent::RabbitMQ::Fork - Run AnyEvent::RabbitMQ inside AnyEvent::Fork(::RPC)
 =cut
 
 use Moo;
-use Types::Standard qw(CodeRef Str HashRef InstanceOf Bool);
+use Types::Standard qw(CodeRef Str HashRef InstanceOf Bool Object);
 use Scalar::Util qw(weaken);
 use Carp qw(croak);
 use File::ShareDir qw(dist_file);
@@ -98,6 +98,10 @@ sub _build_channel_class   { return ref($_[0]) . '::Channel' }
 sub _build_worker_function { return $_[0]->worker_class . '::run' }
 sub _build_init_function   { return $_[0]->worker_class . '::init' }
 
+has _drain_cv => (is => 'lazy', isa => Object, predicate => 1, clearer => 1);
+
+sub _build__drain_cv { return AE::cv }
+
 has channels => (
     is      => 'ro',
     isa     => HashRef [InstanceOf ['AnyEvent::RabbitMQ::Fork::Channel']],
@@ -115,10 +119,11 @@ has cb_registry => (
 );
 
 has rpc => (
-    is       => 'lazy',
-    isa      => CodeRef,
-    clearer  => 1,
-    init_arg => undef,
+    is        => 'lazy',
+    isa       => CodeRef,
+    predicate => 1,
+    clearer   => 1,
+    init_arg  => undef,
 );
 
 sub _build_rpc {
@@ -321,10 +326,27 @@ foreach my $method (qw(connect open_channel close)) {
     };
 }
 
+sub drain_writes {
+    my ($self, $to) = @_;
+
+    my $w;
+    if ($to) {
+        $w = AE::timer $to, 0,
+          sub { $self->_drain_cv->croak("Timed out after $to") };
+    }
+
+    $self->_drain_cv->recv;
+    $self->_clear_drain_cv;
+    undef $w;
+
+    return;
+}
+
 my %event_handlers = (
     cb  => '_handle_callback',
     cbd => '_handle_callback_destroy',
     chd => '_handle_channel_destroy',
+    cdw => '_handle_connection_drain_writes',
     i   => '_handle_info',
 );
 
@@ -431,6 +453,14 @@ sub _handle_callback_destroy {
     return;
 }
 
+sub _handle_connection_drain_writes {
+    my $self = shift;
+
+    $self->_drain_cv->send if $self->_has_drain_cv;
+
+    return;
+}
+
 sub _on_error {
     my $self = shift;
 
@@ -449,8 +479,13 @@ sub _on_destroy {
 sub DEMOLISH {
     my ($self, $in_gd) = @_;
     return if $in_gd;
+    return unless $self->has_rpc;
 
-    $self->_delegate(DEMOLISH => 0);
+    $self->rpc->(DEMOLISH => 0, my $cv = AE::cv);
+
+    $cv->recv;
+
+    $self->clear_rpc;
 
     return;
 }
