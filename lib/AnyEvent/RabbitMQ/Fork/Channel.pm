@@ -1,5 +1,5 @@
 package AnyEvent::RabbitMQ::Fork::Channel;
-$AnyEvent::RabbitMQ::Fork::Channel::VERSION = '0.2';
+$AnyEvent::RabbitMQ::Fork::Channel::VERSION = '0.3';
 =head1 NAME
 
 AnyEvent::RabbitMQ::Fork::Channel - Facade over L<AnyEvent::RabbitMQ::Channel>
@@ -50,7 +50,7 @@ has id         => (is => 'ro', isa => Int);
 has is_open    => (is => 'ro', isa => Bool, default => 0);
 has is_active  => (is => 'ro', isa => Bool, default => 0);
 has is_confirm => (is => 'ro', isa => Bool, default => 0);
-has conn => (
+has connection => (
     is       => 'ro',
     isa      => Object,
     weak_ref => 1,

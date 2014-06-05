@@ -1,5 +1,5 @@
 package AnyEvent::RabbitMQ::Fork;
-$AnyEvent::RabbitMQ::Fork::VERSION = '0.2';
+$AnyEvent::RabbitMQ::Fork::VERSION = '0.3';
 # ABSTRACT: Run AnyEvent::RabbitMQ inside AnyEvent::Fork(::RPC)
 
 =head1 NAME
@@ -93,8 +93,8 @@ has channel_class   => (is => 'lazy', isa => Str);
 has worker_function => (is => 'lazy', isa => Str);
 has init_function   => (is => 'lazy', isa => Str);
 
-sub _build_worker_class    { return ref($_[0]) . '::Worker' }
-sub _build_channel_class   { return ref($_[0]) . '::Channel' }
+sub _build_worker_class    { return __PACKAGE__ . '::Worker' }
+sub _build_channel_class   { return __PACKAGE__ . '::Channel' }
 sub _build_worker_function { return $_[0]->worker_class . '::run' }
 sub _build_init_function   { return $_[0]->worker_class . '::init' }
 
@@ -380,8 +380,8 @@ sub _handle_callback {    ## no critic (Subroutines::RequireArgUnpacking)
                 my $channel_id = shift @args;
                 $_[0] = $self->channels->{$channel_id}
                   ||= $self->channel_class->new(
-                    id   => $channel_id,
-                    conn => $self
+                    id         => $channel_id,
+                    connection => $self
                   );
             } else {
                 croak "Unknown class type: '$class'";

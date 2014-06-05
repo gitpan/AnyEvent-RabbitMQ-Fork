@@ -1,5 +1,5 @@
 package AnyEvent::RabbitMQ::Fork::Worker;
-$AnyEvent::RabbitMQ::Fork::Worker::VERSION = '0.2';
+$AnyEvent::RabbitMQ::Fork::Worker::VERSION = '0.3';
 =head1 NAME
 
 AnyEvent::RabbitMQ::Fork::Worker - Fork side magic
