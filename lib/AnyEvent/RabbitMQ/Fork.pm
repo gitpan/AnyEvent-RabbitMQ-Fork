@@ -1,5 +1,5 @@
 package AnyEvent::RabbitMQ::Fork;
-$AnyEvent::RabbitMQ::Fork::VERSION = '0.3';
+$AnyEvent::RabbitMQ::Fork::VERSION = '0.4';
 # ABSTRACT: Run AnyEvent::RabbitMQ inside AnyEvent::Fork(::RPC)
 
 =head1 NAME
@@ -411,7 +411,7 @@ sub _handle_info {
 sub _handle_channel_info {
     my ($self, $ch_id, %args) = @_;
 
-    warn "_handle_channel_info $ch_id @{[ keys %args ]}\n" if $self->verbose;
+    warn "_handle_channel_info $ch_id @{[ %args ]}\n" if $self->verbose;
 
     if (my $ch = $self->channels->{$ch_id}) {
         @$ch{ keys %args } = values %args;
@@ -436,7 +436,7 @@ sub _handle_channel_destroy {
 sub _handle_connection_info {
     my ($self, %args) = @_;
 
-    warn "_handle_info @{[ keys %args ]}\n" if $self->verbose;
+    warn "_handle_connection_info @{[ %args ]}\n" if $self->verbose;
 
     @$self{ keys %args } = values %args;
 

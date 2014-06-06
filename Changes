@@ -1,5 +1,8 @@
 Revision history for AnyEvent-RabbitMQ-Fork
 
+0.4       2014-06-06 16:43:00-04:00 America/New_York
+    - improve handling object state attirbutes being reported to parent
+
 0.3       2014-06-05 08:49:21-04:00 America/New_York
     - be less dynamic about building sub-class strings; no need to be fancy
     - adhere closer to AnyEvent::RabbitMQ::Channel structure

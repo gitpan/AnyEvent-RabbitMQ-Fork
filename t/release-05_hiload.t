@@ -81,6 +81,10 @@ my $consumer
 $cv->recv;
 
 isa_ok $consumer_ch, 'AnyEvent::RabbitMQ::Fork::Channel';
+ok $consumer->is_open,      'consumer is_open';
+ok $consumer_ch->is_open,   'consumer channel is_open';
+ok $consumer_ch->is_active, 'consumer channel is_active';
+ok !$consumer_ch->is_confirm, 'consumer channel !is_confirm';
 
 $cv = AE::cv;
 
@@ -111,7 +115,10 @@ $cv->recv;
 
 isa_ok $producer_ch, 'AnyEvent::RabbitMQ::Fork::Channel';
 
-ok $producer_ch->is_confirm, 'producer is_confirm';
+ok $producer->is_open,        'producer is_open';
+ok $producer_ch->is_open,     'producer channel is_open';
+ok $producer_ch->is_active,   'producer channel is_active';
+ok $producer_ch->is_confirm, 'producer channel is_confirm';
 
 $cv = AE::cv;
 
