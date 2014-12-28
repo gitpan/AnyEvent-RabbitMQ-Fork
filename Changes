@@ -1,5 +1,10 @@
 Revision history for AnyEvent-RabbitMQ-Fork
 
+0.5       2014-12-28 17:38:10-05:00 America/New_York
+    - update test suite to align with AnyEvent::RabbitMQ
+    - support bind_exchange & unbind_exchange methods
+    - in Worker: generate stand-in callbacks in a separate method
+
 0.4       2014-06-06 16:43:00-04:00 America/New_York
     - improve handling object state attirbutes being reported to parent
 

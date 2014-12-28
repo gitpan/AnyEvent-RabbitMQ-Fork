@@ -22,7 +22,7 @@ my %WriteMakefileArgs = (
   "PREREQ_PM" => {
     "AnyEvent::Fork" => 0,
     "AnyEvent::Fork::RPC" => 0,
-    "AnyEvent::RabbitMQ" => 0,
+    "AnyEvent::RabbitMQ" => "1.18",
     "Carp" => 0,
     "File::ShareDir" => 0,
     "Guard" => 0,
@@ -41,7 +41,7 @@ my %WriteMakefileArgs = (
     "Test::Exception" => 0,
     "Test::More" => 0
   },
-  "VERSION" => "0.4",
+  "VERSION" => "0.5",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -51,7 +51,7 @@ my %WriteMakefileArgs = (
 my %FallbackPrereqs = (
   "AnyEvent::Fork" => 0,
   "AnyEvent::Fork::RPC" => 0,
-  "AnyEvent::RabbitMQ" => 0,
+  "AnyEvent::RabbitMQ" => "1.18",
   "Carp" => 0,
   "Data::Dumper" => 0,
   "File::ShareDir" => 0,

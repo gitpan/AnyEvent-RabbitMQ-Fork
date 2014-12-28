@@ -1,6 +1,6 @@
 requires "AnyEvent::Fork" => "0";
 requires "AnyEvent::Fork::RPC" => "0";
-requires "AnyEvent::RabbitMQ" => "0";
+requires "AnyEvent::RabbitMQ" => "1.18";
 requires "Carp" => "0";
 requires "File::ShareDir" => "0";
 requires "Guard" => "0";

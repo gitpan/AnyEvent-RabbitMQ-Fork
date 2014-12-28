@@ -1,5 +1,5 @@
 package AnyEvent::RabbitMQ::Fork;
-$AnyEvent::RabbitMQ::Fork::VERSION = '0.4';
+$AnyEvent::RabbitMQ::Fork::VERSION = '0.5';
 # ABSTRACT: Run AnyEvent::RabbitMQ inside AnyEvent::Fork(::RPC)
 
 =head1 NAME

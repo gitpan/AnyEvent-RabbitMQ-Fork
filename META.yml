@@ -19,7 +19,7 @@ name: AnyEvent-RabbitMQ-Fork
 requires:
   AnyEvent::Fork: '0'
   AnyEvent::Fork::RPC: '0'
-  AnyEvent::RabbitMQ: '0'
+  AnyEvent::RabbitMQ: '1.18'
   Carp: '0'
   File::ShareDir: '0'
   Guard: '0'
@@ -36,4 +36,4 @@ resources:
   bugtracker: https://github.com/mydimension/AnyEvent-RabbitMQ-Fork/issues
   homepage: https://github.com/mydimension/AnyEvent-RabbitMQ-Fork
   repository: https://github.com/mydimension/AnyEvent-RabbitMQ-Fork.git
-version: '0.4'
+version: '0.5'

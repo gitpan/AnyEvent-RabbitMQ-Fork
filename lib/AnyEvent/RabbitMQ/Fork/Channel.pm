@@ -1,5 +1,5 @@
 package AnyEvent::RabbitMQ::Fork::Channel;
-$AnyEvent::RabbitMQ::Fork::Channel::VERSION = '0.4';
+$AnyEvent::RabbitMQ::Fork::Channel::VERSION = '0.5';
 =head1 NAME
 
 AnyEvent::RabbitMQ::Fork::Channel - Facade over L<AnyEvent::RabbitMQ::Channel>
@@ -67,6 +67,8 @@ my @methods = qw(
   open
   close
   declare_exchange
+  bind_exchange
+  unbind_exchange
   delete_exchange
   declare_queue
   bind_queue
